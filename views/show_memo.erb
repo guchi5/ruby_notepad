@@ -13,7 +13,7 @@
         </p>
     </div>
     <div class="select">
-        <a href="<%= "/edit/#{@id}" %>">変更</a>
+        <a href="<%= "/edit/#{@id}" %>" id="edit">変更</a>
         <form method="post" action="<%= "/delete/#{@id}" %>">
             <input type="submit" value="削除" id="delete">
             <input id="hidden" type="hidden" name="_method" value="delete">
