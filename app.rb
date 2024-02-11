@@ -8,37 +8,36 @@ helpers do
   def h(text)
     Rack::Utils.escape_html(text)
   end
-end
 
-get '/' do
-  @memos = File.open('memo.json', 'r') do |file|
-    data = file.read
-    if data == ''
-      {}
-    else
-      JSON.parse(data)
+  def parse_json
+    File.open('memo.json', 'r') do |file|
+      data = file.read
+      if data == ''
+        {}
+      else
+        JSON.parse(data)
+      end
     end
   end
+end
 
+get '/memo' do
+  @memos = parse_json
   erb :index
 end
 
-get '/new' do
+get '/' do
+  redirect '/memo'
+end
+
+get '/memo/new' do
   erb :new_memo
 end
 
-post '/save' do
-  @title = h(params[:title])
-  @text = h(params[:text])
-  memos = File.open('memo.json', 'r') do |file|
-    data = file.read
-    if data == ''
-      JSON.parse('{}')
-    else
-      JSON.parse(data)
-    end
-  end
-
+post '/memo/save' do
+  @title = params[:title]
+  @text = params[:text]
+  memos = parse_json
   id = if !memos.empty?
          memos.keys.last.to_i + 1
        else
@@ -52,7 +51,7 @@ post '/save' do
   redirect '/'
 end
 
-get '/edit/:id' do |id|
+get '/memo/edit/:id' do |id|
   memos = File.open('memo.json', 'r') do |file|
     data = file.read
     JSON.parse(data)
@@ -63,9 +62,9 @@ get '/edit/:id' do |id|
   erb :edit_memo
 end
 
-patch '/edit/:id' do |id|
-  title = h(params[:title])
-  text = h(params[:text])
+patch '/memo/edit/:id' do |id|
+  title = params[:title]
+  text = params[:text]
   memos = File.open('memo.json', 'r') do |file|
     data = file.read
     JSON.parse(data)
@@ -78,7 +77,7 @@ patch '/edit/:id' do |id|
   redirect '/'
 end
 
-get '/show/:id' do |id|
+get '/memo/show/:id' do |id|
   memos = File.open('memo.json', 'r') do |file|
     data = file.read
     JSON.parse(data)
@@ -89,7 +88,7 @@ get '/show/:id' do |id|
   erb :show_memo
 end
 
-delete '/delete/:id' do |id|
+delete '/memo/delete/:id' do |id|
   memos = File.open('memo.json', 'r') do |file|
     data = file.read
     JSON.parse(data)
