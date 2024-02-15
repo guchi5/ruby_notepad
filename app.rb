@@ -34,7 +34,7 @@ get '/memo/new' do
   erb :new_memo
 end
 
-post '/memo/save' do
+post '/memo/new' do
   @title = params[:title]
   @text = params[:text]
   memos = parse_json
@@ -51,7 +51,7 @@ post '/memo/save' do
   redirect '/'
 end
 
-get '/memo/edit/:id' do |id|
+get '/memo/:id/edit' do |id|
   memos = File.open('memo.json', 'r') do |file|
     data = file.read
     JSON.parse(data)
@@ -62,7 +62,7 @@ get '/memo/edit/:id' do |id|
   erb :edit_memo
 end
 
-patch '/memo/edit/:id' do |id|
+patch '/memo/:id/edit' do |id|
   title = params[:title]
   text = params[:text]
   memos = File.open('memo.json', 'r') do |file|
@@ -77,7 +77,7 @@ patch '/memo/edit/:id' do |id|
   redirect '/'
 end
 
-get '/memo/show/:id' do |id|
+get '/memo/:id' do |id|
   memos = File.open('memo.json', 'r') do |file|
     data = file.read
     JSON.parse(data)
@@ -88,7 +88,7 @@ get '/memo/show/:id' do |id|
   erb :show_memo
 end
 
-delete '/memo/delete/:id' do |id|
+delete '/memo/:id/delete' do |id|
   memos = File.open('memo.json', 'r') do |file|
     data = file.read
     JSON.parse(data)

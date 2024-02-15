@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/show/style.css">
 <header>
     <h1 class="title">メモアプリ</h1>
 </header>
@@ -13,8 +14,8 @@
         </p>
     </div>
     <div class="select">
-        <a href="<%= "/memo/edit/#{@id}" %>" id="edit">変更</a>
-        <form method="post" action="<%= "/memo/delete/#{@id}" %>">
+        <a href="<%= "/memo/#{@id}/edit" %>" id="edit">変更</a>
+        <form method="post" action="<%= "/memo/#{@id}/delete" %>">
             <input type="submit" value="削除" id="delete">
             <input id="hidden" type="hidden" name="_method" value="delete">
         </form>

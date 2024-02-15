@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="/css/style.css">
 <header>
     <h1 class="title">メモアプリ</h1>
     <a href="/memo/new" class="add_button">追加</a>
@@ -6,7 +7,7 @@
     <ul>
         <% @memos.each do |id, memo| %>
             <li>
-                <a href="<%= "/memo/show/#{id}" %>"><%= h memo["title"] %></a>
+                <a href="<%= "/memo/#{id}" %>"><%= h memo["title"] %></a>
             </li>
         <% end %>
     </ul>
