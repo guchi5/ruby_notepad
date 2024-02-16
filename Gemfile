@@ -4,10 +4,12 @@ source 'https://rubygems.org'
 
 group :development do
   gem 'erb_lint', require: false
+  gem 'rubocop-fjord', require: false
+end
+
+group :production do
   gem 'puma'
   gem 'rackup'
-  gem 'redcarpet'
-  gem 'rubocop-fjord', require: false
   gem 'sinatra'
   gem 'sinatra-contrib'
 end

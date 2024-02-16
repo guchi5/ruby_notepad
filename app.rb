@@ -27,20 +27,20 @@ helpers do
   end
 end
 
-get '/memo' do
+get '/memos' do
   @memos = read_memos
   erb :index
 end
 
 get '/' do
-  redirect '/memo'
+  redirect '/memos'
 end
 
-get '/memo/new' do
+get '/memos/new' do
   erb :new_memo
 end
 
-post '/memo/new' do
+post '/memos/new' do
   @title = params[:title]
   @text = params[:text]
   memos = read_memos
@@ -55,7 +55,7 @@ post '/memo/new' do
   redirect '/'
 end
 
-get '/memo/:id/edit' do |id|
+get '/memos/:id/edit' do |id|
   memos = read_memos
   @title = memos[id]['title']
   @text = memos[id]['text']
@@ -63,7 +63,7 @@ get '/memo/:id/edit' do |id|
   erb :edit_memo
 end
 
-patch '/memo/:id/edit' do |id|
+patch '/memos/:id/edit' do |id|
   title = params[:title]
   text = params[:text]
   memos = read_memos
@@ -73,7 +73,7 @@ patch '/memo/:id/edit' do |id|
   redirect '/'
 end
 
-get '/memo/:id' do |id|
+get '/memos/:id' do |id|
   memos = read_memos
   @title = memos[id]['title']
   @text = memos[id]['text']
@@ -81,7 +81,7 @@ get '/memo/:id' do |id|
   erb :show_memo
 end
 
-delete '/memo/:id/delete' do |id|
+delete '/memos/:id/delete' do |id|
   memos = read_memos
   memos.delete(id)
   save_memos(memos)

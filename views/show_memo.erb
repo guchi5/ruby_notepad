@@ -14,8 +14,8 @@
         </p>
     </div>
     <div class="select">
-        <a href="<%= "/memo/#{@id}/edit" %>" id="edit">変更</a>
-        <form method="post" action="<%= "/memo/#{@id}/delete" %>">
+        <a href="<%= "/memos/#{@id}/edit" %>" id="edit">変更</a>
+        <form method="post" action="<%= "/memos/#{@id}/delete" %>">
             <input type="submit" value="削除" id="delete">
             <input id="hidden" type="hidden" name="_method" value="delete">
         </form>
