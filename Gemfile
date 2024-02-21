@@ -7,9 +7,7 @@ group :development do
   gem 'rubocop-fjord', require: false
 end
 
-group :production do
-  gem 'puma'
-  gem 'rackup'
-  gem 'sinatra'
-  gem 'sinatra-contrib'
-end
+gem 'puma'
+gem 'rackup'
+gem 'sinatra'
+gem 'sinatra-contrib'

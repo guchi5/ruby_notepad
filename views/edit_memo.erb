@@ -4,7 +4,7 @@
     <h1 class="title">メモアプリ</h1>
 </header>
 <main>
-    <form action="<%= "/memos/#{@id}/edit" %>" method="post">
+    <form action="<%= "/memos/#{@id}" %>" method="post">
         <div class="memo_title">
             <input type="text" name="title" id="title" value="<%= h @title %>">
         </div>

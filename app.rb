@@ -40,7 +40,7 @@ get '/memos/new' do
   erb :new_memo
 end
 
-post '/memos/new' do
+post '/memos' do
   @title = params[:title]
   @text = params[:text]
   memos = read_memos
@@ -63,7 +63,7 @@ get '/memos/:id/edit' do |id|
   erb :edit_memo
 end
 
-patch '/memos/:id/edit' do |id|
+patch '/memos/:id' do |id|
   title = params[:title]
   text = params[:text]
   memos = read_memos
@@ -81,7 +81,7 @@ get '/memos/:id' do |id|
   erb :show_memo
 end
 
-delete '/memos/:id/delete' do |id|
+delete '/memos/:id' do |id|
   memos = read_memos
   memos.delete(id)
   save_memos(memos)
