@@ -1,0 +1,14 @@
+<link rel="stylesheet" href="/css/style.css">
+<header>
+    <h1 class="title">メモアプリ</h1>
+    <a href="/memos/new" class="add_button">追加</a>
+</header>
+<main>
+    <ul>
+        <% @memos.each do |id, memo| %>
+            <li>
+                <a href="<%= "/memos/#{id}" %>"><%= h memo["title"] %></a>
+            </li>
+        <% end %>
+    </ul>
+</main>

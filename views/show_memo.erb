@@ -1,0 +1,23 @@
+<link rel="stylesheet" href="/css/show/style.css">
+<header>
+    <h1 class="title">メモアプリ</h1>
+</header>
+<main>
+    <div class="memo_title">
+        <h1 id="title">
+            <%= h @title %>
+        </h1>
+    </div>
+    <div class="memo_text">
+        <p id="text">
+            <%= h @text %>
+        </p>
+    </div>
+    <div class="select">
+        <a href="<%= "/memos/#{@id}/edit" %>" id="edit">変更</a>
+        <form method="post" action="<%= "/memos/#{@id}" %>">
+            <input type="submit" value="削除" id="delete">
+            <input id="hidden" type="hidden" name="_method" value="delete">
+        </form>
+    </div>
+</main>
