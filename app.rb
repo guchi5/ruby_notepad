@@ -3,6 +3,7 @@
 require 'sinatra'
 require 'sinatra/reloader'
 require 'json'
+require 'pg'
 
 helpers do
   def h(text)
@@ -10,20 +11,30 @@ helpers do
   end
 
   def read_memos
-    File.open('memo.json', 'r') do |file|
-      data = file.read
-      if data == ''
-        {}
-      else
-        JSON.parse(data)
-      end
-    end
+    conn = PG.connect(dbname: 'postgres')
+    result = conn.exec("SELECT * FROM information_schema.tables WHERE table_name = 'memos'")
+    conn.exec('CREATE TABLE memos (id serial, title varchar(255), content text)') if result.values.empty?
+    conn.exec('SELECT * FROM memos')
   end
 
-  def save_memos(memos)
-    File.open('memo.json', 'w') do |file|
-      JSON.dump(memos, file)
-    end
+  def read_memo_by_id(id)
+    conn = PG.connect(dbname: 'postgres')
+    conn.exec("SELECT * FROM memos WHERE id = #{id}")
+  end
+
+  def add_memo(memo)
+    conn = PG.connect(dbname: 'postgres')
+    conn.exec("INSERT INTO memos (title, content) VALUES ('#{memo[:title]}', '#{memo[:text]}')")
+  end
+
+  def update_memo(memo)
+    conn = PG.connect(dbname: 'postgres')
+    conn.exec("UPDATE memos SET title = '#{memo[:title]}', content = '#{memo[:text]}' WHERE id = #{memo[:id]}")
+  end
+
+  def delete_memo(id)
+    conn = PG.connect(dbname: 'postgres')
+    conn.exec("DELETE FROM memos WHERE id = #{id}")
   end
 end
 
@@ -43,22 +54,15 @@ end
 post '/memos' do
   @title = params[:title]
   @text = params[:text]
-  memos = read_memos
-  id = if !memos.empty?
-         memos.keys.last.to_i + 1
-       else
-         0
-       end
-  memo = { id => { title: @title, text: @text } }
-  memos = memos.merge(memo)
-  save_memos(memos)
+  memo = { title: @title, text: @text }
+  add_memo(memo)
   redirect '/'
 end
 
 get '/memos/:id/edit' do |id|
-  memos = read_memos
-  @title = memos[id]['title']
-  @text = memos[id]['text']
+  memo = read_memo_by_id(id)
+  @title = memo[0]['title']
+  @text = memo[0]['content']
   @id = id
   erb :edit_memo
 end
@@ -66,24 +70,19 @@ end
 patch '/memos/:id' do |id|
   title = params[:title]
   text = params[:text]
-  memos = read_memos
-  memos[id]['title'] = title
-  memos[id]['text'] = text
-  save_memos(memos)
+  update_memo({ id:, title:, text: })
   redirect '/'
 end
 
 get '/memos/:id' do |id|
-  memos = read_memos
-  @title = memos[id]['title']
-  @text = memos[id]['text']
+  memo = read_memo_by_id(id)
+  @title = memo[0]['title']
+  @text = memo[0]['content']
   @id = id
   erb :show_memo
 end
 
 delete '/memos/:id' do |id|
-  memos = read_memos
-  memos.delete(id)
-  save_memos(memos)
+  delete_memo(id)
   redirect '/'
 end
