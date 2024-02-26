@@ -11,10 +11,6 @@ class DatabaseManager
     @conn.exec('CREATE TABLE memos (id serial, title varchar(255), content text)') if result.values.empty?
   end
 
-  def test
-    p "hello world!!\n"
-  end
-
   def read_memos
     @conn.exec('SELECT * FROM memos')
   end
