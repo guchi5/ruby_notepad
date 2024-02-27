@@ -7,8 +7,7 @@ require 'pg'
 class DatabaseManager
   def initialize
     @conn = PG.connect(dbname: 'postgres')
-    result = @conn.exec("SELECT * FROM information_schema.tables WHERE table_name = 'memos'")
-    @conn.exec('CREATE TABLE memos (id serial, title varchar(255), content text)') if result.values.empty?
+    @conn.exec('CREATE TABLE IF NOT EXISTS memos (id serial, title varchar(255), content text)')
   end
 
   def read_memos
@@ -16,7 +15,7 @@ class DatabaseManager
   end
 
   def read_memo_by_id(id)
-    @conn.exec('SELECT * FROM memos WHERE id = $1', [id])
+    @conn.exec('SELECT * FROM memos WHERE id = $1', [id])[0]
   end
 
   def add_memo(memo)
@@ -63,8 +62,8 @@ end
 
 get '/memos/:id/edit' do |id|
   memo = db.read_memo_by_id(id)
-  @title = memo[0]['title']
-  @content = memo[0]['content']
+  @title = memo['title']
+  @content = memo['content']
   @id = id
   erb :edit_memo
 end
@@ -78,8 +77,8 @@ end
 
 get '/memos/:id' do |id|
   memo = db.read_memo_by_id(id)
-  @title = memo[0]['title']
-  @content = memo[0]['content']
+  @title = memo['title']
+  @content = memo['content']
   @id = id
   erb :show_memo
 end
