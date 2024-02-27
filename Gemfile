@@ -7,6 +7,7 @@ group :development do
   gem 'rubocop-fjord', require: false
 end
 
+gem 'pg'
 gem 'puma'
 gem 'rackup'
 gem 'sinatra'

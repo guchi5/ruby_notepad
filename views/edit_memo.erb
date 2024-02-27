@@ -9,7 +9,7 @@
             <input type="text" name="title" id="title" value="<%= h @title %>">
         </div>
         <div class="memo_text">
-            <textarea name="text" id="text" cols="30" rows="10"><%= h @text %></textarea>
+            <textarea name="content" id="content" cols="30" rows="10"><%= h @content %></textarea>
         </div>
         <input id="hidden" type="hidden" name="_method" value="patch">
         <input type="submit" value="変更" id="save">

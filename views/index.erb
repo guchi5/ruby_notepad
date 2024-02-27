@@ -5,9 +5,9 @@
 </header>
 <main>
     <ul>
-        <% @memos.each do |id, memo| %>
+        <% @memos.each do |memo| %>
             <li>
-                <a href="<%= "/memos/#{id}" %>"><%= h memo["title"] %></a>
+                <a href="<%= "/memos/#{memo['id']}" %>"><%= h memo["title"] %></a>
             </li>
         <% end %>
     </ul>
